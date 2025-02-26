@@ -8,11 +8,12 @@ import tetris.Node;
 
 public class Cross extends Body {
 
-    public Cross(){
+    public Cross(int cols){
+        super(cols);
         this.color = new Color(214, 106, 255);
         this.nodes = new ArrayList<>();
         Random random = new Random();
-        int randomNumber = random.nextInt(7);
+        int randomNumber = random.nextInt(cols - 2);
         nodes.add(new Node(randomNumber + 1, 1, color));
         nodes.add(new Node(randomNumber + 1, 0, color));
         nodes.add(new Node(randomNumber + 1, 2, color));

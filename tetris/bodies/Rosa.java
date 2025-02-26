@@ -10,11 +10,13 @@ public class Rosa extends Body{
     Node mainNode;
     int nbr = 0;
     
-    public Rosa(){
+    public Rosa(int cols){
+        super(cols);
         this.color = new Color(214, 106, 255);
         this.nodes = new ArrayList<>();
         Random random = new Random();
-        int randomNumber = random.nextInt(7);
+        System.out.println(cols);
+        int randomNumber = random.nextInt(cols - 2);
         this.mainNode = new Node(randomNumber + 1, 1, color);
         nodes.add(mainNode);
         nodes.add(new Node(mainNode.x - 1, mainNode.y, color));
@@ -23,7 +25,7 @@ public class Rosa extends Body{
     }
 
     public void rotate(int x){
-        if(mainNode.x == 0 || mainNode.x == 9){
+        if(mainNode.x == 0 || mainNode.x == cols - 1){
             return;
         }
         if(x < 0){

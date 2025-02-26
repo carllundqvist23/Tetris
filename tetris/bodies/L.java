@@ -10,24 +10,22 @@ public class L extends Body {
     private Node maiNode;
     private int nbr = 0;
 
-    public L(){
+    public L(int cols){
+        super(cols);
         this.color = Color.CYAN;
         this.nodes = new ArrayList<>();
         Random random = new Random();
-        int randomNumber = random.nextInt(7);
+        int randomNumber = random.nextInt(cols - 2);
         this.maiNode = new Node(randomNumber + 1, 1, color);
         nodes.add(maiNode);
         nodes.add(new Node(randomNumber, 1, color));
         nodes.add(new Node(randomNumber + 2, 1, color));
         nodes.add(new Node(randomNumber + 2, 0, color));
-
-        
-        
     }
 
     
     public void rotate(int x) {
-        if(maiNode.x == 0 || maiNode.x == 9){
+        if(maiNode.x == 0 || maiNode.x == cols - 1){
             return;
         }
         if(x < 0){

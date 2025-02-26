@@ -10,15 +10,13 @@ public abstract class Body {
     public List<Node> nodes;
     protected Node main;
     protected Color color;
+    protected int cols;
+
+    public Body(int cols){
+        this.cols = cols;
+    }
 
     public abstract void rotate(int x);
-    public void downOneStep(){
-        for(Node n : nodes){
-            if(n.downOne() == false){
-                break;
-            }
-        }
-    }
 
     public boolean isGameOver(){
         for(Node n : nodes){

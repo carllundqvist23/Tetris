@@ -15,8 +15,14 @@ import tetris.bodies.Stick;
 public class Game {
     private List<Body> bodies = new ArrayList<>();
     private List<Node> nodesOccupied = new ArrayList<>();
-    public Body body = newBody();
+    public Body body;
     public boolean gameOver = false;
+    private int cols;
+
+    public Game(int cols){
+        this.cols = cols;
+        this.body = newBody();
+    }
 
 
     public boolean oneStepDownOkay(){
@@ -49,31 +55,31 @@ public class Game {
         int x = random.nextInt(7);
         Body body;
         if(x == 0){
-            body = new Rosa();
+            body = new Rosa(cols);
             bodies.add(body);
         }
         else if(x == 1){
-            body = new Rosa();
+            body = new Rosa(cols);
             bodies.add(body);
         }
         else if(x == 2){
-            body = new L();
+            body = new L(cols);
             bodies.add(body);
         }
         else if(x == 3){
-            body = new Red();
+            body = new Red(cols);
             bodies.add(body);
         }
         else if(x == 4){
-            body = new Square();
+            body = new Square(cols);
             bodies.add(body);
         }
         else if(x == 5){
-            body = new J();
+            body = new J(cols);
             bodies.add(body);
         }
         else{
-            body = new Stick();
+            body = new Stick(cols);
             bodies.add(body);
         }
 

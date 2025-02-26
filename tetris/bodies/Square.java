@@ -7,11 +7,12 @@ import java.util.Random;
 import tetris.Node;
 
 public class Square extends Body {
-    public Square(){
+    public Square(int cols){
+        super(cols);
         this.color = Color.yellow;
         this.nodes = new ArrayList<>();
         Random random = new Random();
-        int randomNumber = random.nextInt(8);
+        int randomNumber = random.nextInt(cols - 1);
         nodes.add(new Node(randomNumber + 0, 1, color));
         nodes.add(new Node(randomNumber + 1, 1, color));
         nodes.add(new Node(randomNumber + 0, 0, color));

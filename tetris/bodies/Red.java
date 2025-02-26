@@ -10,11 +10,12 @@ public class Red extends Body {
     private int nbr = 0;
     private Node mainNode;
 
-    public Red(){
+    public Red(int cols){
+        super(cols);
         this.color = Color.red;
         this.nodes = new ArrayList<>();
         Random random = new Random();
-        int randomNumber = random.nextInt(7);
+        int randomNumber = random.nextInt(cols - 2);
         this.mainNode = new Node(randomNumber + 1, 1, color);
         
         nodes.add(new Node(randomNumber    , 1, color));
@@ -39,10 +40,4 @@ public class Red extends Body {
             nodes.add(new Node(mainNode.x - 1, mainNode.y + 1, color));
         }
     }
-
-    public void downOneStep() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'downOneStep'");
-    }
-    
 }
