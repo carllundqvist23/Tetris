@@ -61,6 +61,8 @@ public class Board {
                     g.setColor(n.color);
                     g2d.fillRect(n.x * cellSize, n.y * cellSize, cellSize, cellSize);
                 }
+
+                
                 
                 g.setColor(Color.green);
 
@@ -70,10 +72,16 @@ public class Board {
                     g2d.drawLine(0, y, width, y);
                 }
 
+
                 // Rita vertikala linjer
                 for (int i = 0; i <= cols; i++) {
                     int x = i * cellSize;
                     g2d.drawLine(x, 0, x, height);
+                }
+
+                for(Node n : game.predictionCoordinates()){
+                    g2d.setColor(n.color);
+                    g2d.drawRect(n.x *cellSize, n.y *cellSize, cellSize, cellSize);
                 }
             }
         };
@@ -101,19 +109,23 @@ public class Board {
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             this.mover = new West();
             mover.move(game.body, cols);
+            game.updatePredictor();
             update();
         }
         else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
             this.mover = new East();
             mover.move(game.body, cols);
+            game.updatePredictor();
             update();
         }
         else if(e.getKeyCode() == KeyEvent.VK_UP){
             game.rotate(1);
+            game.updatePredictor();
             update();
         }
         else if(e.getKeyCode() == KeyEvent.VK_DOWN){
             game.rotate(-1);
+            game.updatePredictor();
             update();
         }
         else if(e.getKeyCode() == KeyEvent.VK_SPACE){

@@ -15,7 +15,7 @@ public class L extends Body {
         this.color = Color.CYAN;
         this.nodes = new ArrayList<>();
         Random random = new Random();
-        int randomNumber = random.nextInt(cols - 2);
+        int randomNumber = random.nextInt(cols - 3);
         this.maiNode = new Node(randomNumber + 1, 1, color);
         nodes.add(maiNode);
         nodes.add(new Node(randomNumber, 1, color));

@@ -15,7 +15,6 @@ public class Rosa extends Body{
         this.color = new Color(214, 106, 255);
         this.nodes = new ArrayList<>();
         Random random = new Random();
-        System.out.println(cols);
         int randomNumber = random.nextInt(cols - 2);
         this.mainNode = new Node(randomNumber + 1, 1, color);
         nodes.add(mainNode);

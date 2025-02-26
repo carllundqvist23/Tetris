@@ -1,25 +1,24 @@
 package tetris;
 
 public class Main {
-  private static Board board = new Board(20, 35);
+    private static Board board = new Board(20, 10);
   
-  
-  public static void main(String[] args) {
-    boolean gameOver = false;
-    while(!gameOver){
-      try {
-        Thread.sleep(200);
-        gameOver = board.update();
-        Thread.sleep(200);
+    public static void main(String[] args) {
+        boolean gameOver = false;
+        while(!gameOver){
+          try {
+            Thread.sleep(200);
+            gameOver = board.update();
+            Thread.sleep(200);
 
-      } 
-      catch (InterruptedException e) {
-        e.printStackTrace();
-      }
-      
-      board.game.move(19);
-      gameOver = board.update();
+          } 
+          catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+        
+          board.game.move(19);
+          gameOver = board.update();
+        }
+        System.out.println("Game Over!");
     }
-    System.out.println("Game Over!");
-  }
 }

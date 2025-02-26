@@ -18,6 +18,7 @@ public class Game {
     public Body body;
     public boolean gameOver = false;
     private int cols;
+    private Predictor predictor;
 
     public Game(int cols){
         this.cols = cols;
@@ -82,6 +83,7 @@ public class Game {
             body = new Stick(cols);
             bodies.add(body);
         }
+        predictor = new Predictor(body, nodesOccupied);
 
         return body;
     }
@@ -97,6 +99,7 @@ public class Game {
         }
         gameOver = body.isGameOver();
         body = newBody();
+        //predictor = new Predictor(body, nodesOccupied);
     }
 
     public void move(int x){
@@ -124,7 +127,7 @@ public class Game {
     
     public List<Node> wholeRowOfNodes(int y){
         List<Node> list = new ArrayList<>();
-        for(int x = 0; x < 35; x++){
+        for(int x = 0; x < cols; x++){
             list.add(new Node(x, y, Color.BLACK));
         }
         return list;
@@ -145,5 +148,13 @@ public class Game {
                 n.y = n.y + 1;
             }
         }
+    }
+
+    public List<Node> predictionCoordinates(){
+        return predictor.returnCoordinates();
+    }
+
+    public void updatePredictor(){
+        predictor = new Predictor(body, nodesOccupied);
     }
 }
