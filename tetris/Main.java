@@ -7,10 +7,10 @@ public class Main {
         boolean gameOver = false;
         while(!gameOver){
           try {
-            Thread.sleep(200);
+            Thread.sleep(200 - board.player.getPoints());
             gameOver = board.update();
-            Thread.sleep(200);
-
+            Thread.sleep(200 - board.player.getPoints());
+ 
           } 
           catch (InterruptedException e) {
             e.printStackTrace();

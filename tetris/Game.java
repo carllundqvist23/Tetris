@@ -19,10 +19,12 @@ public class Game {
     public boolean gameOver = false;
     private int cols;
     private Predictor predictor;
+    private Player player;
 
-    public Game(int cols){
+    public Game(int cols, Player player){
         this.cols = cols;
         this.body = newBody();
+        this.player = player;
     }
 
 
@@ -89,14 +91,17 @@ public class Game {
     }
 
     public void endOfBody(){
+        int nbrErasedRows = 0;
         for(Node n : body.nodes){
             nodesOccupied.add(n);
         }
         for(Node n : body.nodes){
             if(wholeRowOccupied(n.y)){
+                nbrErasedRows++;
                 eraseRow(n.y);
             }
         }
+        player.updatePts(nbrErasedRows * 10);
         gameOver = body.isGameOver();
         body = newBody();
         //predictor = new Predictor(body, nodesOccupied);

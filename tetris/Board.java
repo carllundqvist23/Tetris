@@ -21,11 +21,12 @@ public class Board {
     private JFrame frame;
     private JPanel panel;
     private Move mover;
+    public Player player = new Player();
     
     public Board(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
-        this.game = new Game(cols);
+        this.game = new Game(cols, player);
         createBoard();
     }
 
@@ -82,6 +83,8 @@ public class Board {
                 for(Node n : game.predictionCoordinates()){
                     g2d.setColor(n.color);
                     g2d.drawRect(n.x *cellSize, n.y *cellSize, cellSize, cellSize);
+                    g2d.fillRect(n.x *cellSize + 10, n.y *cellSize + 10, cellSize - 20, cellSize - 20);
+                    //g2d.fillOval(n.x * cellSize + 15, n.y * cellSize + 15, 30, 30);
                 }
             }
         };

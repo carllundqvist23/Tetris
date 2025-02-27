@@ -11,7 +11,7 @@ public class Stick extends Body{
 
     public Stick(int cols){
         super(cols);
-        this.color = new Color(98, 247, 0);
+        this.color = Color.pink;
         this.nodes = new ArrayList<>();
         Random random = new Random();
         int randomNumber = random.nextInt(cols - 6) + 3;

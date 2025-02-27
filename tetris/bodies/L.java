@@ -12,7 +12,7 @@ public class L extends Body {
 
     public L(int cols){
         super(cols);
-        this.color = Color.CYAN;
+        this.color = Color.BLUE;
         this.nodes = new ArrayList<>();
         Random random = new Random();
         int randomNumber = random.nextInt(cols - 3);
