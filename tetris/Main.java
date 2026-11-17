@@ -2,6 +2,7 @@ package tetris;
 
 public class Main {
     private static Board board = new Board(20, 10);
+    private static Player player = new Player();
   
     public static void main(String[] args) {
         boolean gameOver = false;
@@ -9,7 +10,7 @@ public class Main {
         while(!gameOver){
           try {
             long now = System.currentTimeMillis();
-            long dead = now + 400 - board.player.getPoints() % 10;
+            long dead = now + 400 - player.getPoints() % 10;
             gameOver = board.update();
             now = System.currentTimeMillis();
             if (dead > now){
