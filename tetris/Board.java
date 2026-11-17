@@ -1,6 +1,5 @@
 package tetris;
 
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -8,9 +7,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import tetris.Moving.East;
-import tetris.Moving.Move;
-import tetris.Moving.West;
+
 
 public class Board {
     private int rows;
@@ -19,13 +16,11 @@ public class Board {
     public Game game;
     private JFrame frame;
     private JPanel panel;
-    private Move mover;
-    public Player player = new Player();
     
-    public Board(int rows, int cols) {
+    public Board(int rows, int cols, Game game) {
         this.rows = rows;
         this.cols = cols;
-        this.game = new Game(cols, player);
+        this.game = game;
         createBoard();
     }
 
@@ -54,8 +49,6 @@ public class Board {
                     g.setColor(n.color);
                     g2d.fillRect(n.x * cellSize, n.y * cellSize, cellSize, cellSize);
                 }
-
-
                 
                 for(Node n : game.getNodesOccupied()){
                     g.setColor(n.color);
@@ -95,48 +88,16 @@ public class Board {
         frame.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                handleKeyPress(e); // Hantera tangenttryckning
+                game.handleKeyPress(e); // Hantera tangenttryckning
+                paint();
             }
         });
         // Gör fönstret synligt
         frame.setVisible(true);
     }
 
-    public boolean update(){
+    public boolean paint(){
         panel.repaint();
         return game.gameOver;
-    }
-
-    public void handleKeyPress(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            this.mover = new West();
-            mover.move(game.body, cols);
-            game.updatePredictor();
-            update();
-        }
-        else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-            this.mover = new East();
-            mover.move(game.body, cols);
-            game.updatePredictor();
-            update();
-        }
-        else if(e.getKeyCode() == KeyEvent.VK_UP){
-            game.rotate(1);
-            game.updatePredictor();
-            update();
-        }
-        else if(e.getKeyCode() == KeyEvent.VK_DOWN){
-            game.rotate(-1);
-            game.updatePredictor();
-            update();
-        }
-        else if(e.getKeyCode() == KeyEvent.VK_SPACE){
-            spacePressed();
-            update();
-          }
-    }
-    
-    public void spacePressed(){
-        game.moveToBottom();
     }
 }

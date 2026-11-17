@@ -1,8 +1,14 @@
 package tetris;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import tetris.Moving.East;
+import tetris.Moving.Move;
+import tetris.Moving.West;
+
 
 import tetris.bodies.Body;
 import tetris.bodies.Green;
@@ -21,6 +27,7 @@ public class Game {
     private int cols;
     private Predictor predictor;
     private Player player;
+    private Move mover;
 
     public Game(int cols, Player player){
         this.cols = cols;
@@ -167,4 +174,29 @@ public class Game {
     public void updatePredictor(){
         predictor = new Predictor(body, nodesOccupied);
     }
+
+    public void handleKeyPress(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+            this.mover = new West();
+            mover.move(body, cols);
+            updatePredictor();
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+            this.mover = new East();
+            mover.move(body, cols);
+            updatePredictor();
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_UP){
+            rotate(1);
+            updatePredictor();
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_DOWN){
+            rotate(-1);
+            updatePredictor();
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_SPACE){
+            moveToBottom();
+          }
+    }
+
 }

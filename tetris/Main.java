@@ -1,24 +1,24 @@
 package tetris;
 
 public class Main {
-    private static Board board = new Board(20, 10);
-    private static Player player = new Player();
+  private static Player player = new Player();
+  private static Game game = new Game(10, player);
+  private static Board board = new Board(20, 10, game);
   
     public static void main(String[] args) {
-        boolean gameOver = false;
         
-        while(!gameOver){
+        while(!game.gameOver){
           try {
             long now = System.currentTimeMillis();
             long dead = now + 400 - player.getPoints() % 10;
-            gameOver = board.update();
+            board.paint();
             now = System.currentTimeMillis();
             if (dead > now){
               Thread.sleep(dead - now);
             }
             
             
-            board.game.move(19);
+            game.move(19);
             
  
           } 
