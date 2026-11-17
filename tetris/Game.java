@@ -20,7 +20,6 @@ import tetris.bodies.Square;
 import tetris.bodies.Stick;
 
 public class Game {
-    private List<Body> bodies = new ArrayList<>();
     private List<Node> nodesOccupied = new ArrayList<>();
     public Body body;
     public boolean gameOver = false;
@@ -53,10 +52,6 @@ public class Game {
         endOfBody();
     }
 
-    public List<Body> getBodies(){
-        return bodies;
-    }
-
     public List<Node> getNodesOccupied(){
         return nodesOccupied;
     }
@@ -67,35 +62,27 @@ public class Game {
         Body body;
         if(x == 0){
             body = new Rosa(cols);
-            bodies.add(body);
         }
         else if(x == 1){
             body = new Rosa(cols);
-            bodies.add(body);
         }
         else if(x == 2){
             body = new L(cols);
-            bodies.add(body);
         }
         else if(x == 3){
             body = new Red(cols);
-            bodies.add(body);
         }
         else if(x == 4){
             body = new Square(cols);
-            bodies.add(body);
         }
         else if(x == 5){
             body = new J(cols);
-            bodies.add(body);
         }
         else if(x == 6){
             body = new Green(cols);
-            bodies.add(body);
         }
         else{
             body = new Stick(cols);
-            bodies.add(body);
         }
         predictor = new Predictor(body, nodesOccupied);
 
@@ -198,5 +185,4 @@ public class Game {
             moveToBottom();
           }
     }
-
 }

@@ -2,8 +2,8 @@ package tetris;
 
 public class Main {
   private static Player player = new Player();
-  private static Game game = new Game(10, player);
-  private static Board board = new Board(20, 10, game);
+  private static Game game = new Game(20, player);
+  private static Board board = new Board(20, 20, game);
   
     public static void main(String[] args) {
         
@@ -16,11 +16,7 @@ public class Main {
             if (dead > now){
               Thread.sleep(dead - now);
             }
-            
-            
             game.move(19);
-            
- 
           } 
           catch (InterruptedException e) {
             e.printStackTrace();
