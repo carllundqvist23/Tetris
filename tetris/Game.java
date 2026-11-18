@@ -21,21 +21,31 @@ import tetris.bodies.Stick;
 
 public class Game {
     private List<Node> nodesOccupied = new ArrayList<>();
-    public Body body;
+    public  List<Body> bodies = new ArrayList<>();
     public boolean gameOver = false;
     private int cols;
     private Predictor predictor;
     private Player player;
     private Move mover;
-
+    
     public Game(int cols, Player player){
         this.cols = cols;
-        this.body = newBody();
         this.player = player;
+        bodies.add(newBody());
+        bodies.add(newBody());
+    }
+    
+    public void move(int index){
+        Body body = bodies.get(index);
+        if(!oneStepDownOkay(body)){
+            endOfBody(body, index);
+        }
+        else{
+            body.moveDown();
+        }
     }
 
-
-    public boolean oneStepDownOkay(){
+    public boolean oneStepDownOkay(Body body){
         for(Node n : body.nodes){
             Node node = new Node(n.x, n.y + 1, Color.BLACK);
             if(nodesOccupied.contains(node) || n.y == 19){
@@ -45,11 +55,29 @@ public class Game {
         return true;
     }
 
-    public Body moveToBottom(){
-        while(oneStepDownOkay()){
+    public void endOfBody(Body body, int index){
+        int nbrErasedRows = 0;
+        for(Node n : body.nodes){
+            nodesOccupied.add(n);
+        }
+        for(Node n : body.nodes){
+            if(wholeRowOccupied(n.y)){
+                nbrErasedRows++;
+                eraseRow(n.y);
+            }
+        }
+        player.updatePts(nbrErasedRows * 10);
+        gameOver = body.isGameOver();
+        bodies.set(index, newBody());
+
+        //predictor = new Predictor(body, nodesOccupied);
+    }
+
+    public void moveToBottom(Body body, int index){
+        while(oneStepDownOkay(body)){
             body.moveDown();
         }
-        return endOfBody();
+        endOfBody(body, index);
     }
 
     public List<Node> getNodesOccupied(){
@@ -89,33 +117,8 @@ public class Game {
         return body;
     }
 
-    public Body endOfBody(){
-        int nbrErasedRows = 0;
-        for(Node n : body.nodes){
-            nodesOccupied.add(n);
-        }
-        for(Node n : body.nodes){
-            if(wholeRowOccupied(n.y)){
-                nbrErasedRows++;
-                eraseRow(n.y);
-            }
-        }
-        player.updatePts(nbrErasedRows * 10);
-        gameOver = body.isGameOver();
-        return  newBody();
-        //predictor = new Predictor(body, nodesOccupied);
-    }
 
-    public Body move(int x, Body body){
-        if(!oneStepDownOkay()){
-            return endOfBody();
-        }
-        else{
-            return body.moveDown();
-        }
-    }
-
-    public void rotate(int x){
+    public void rotate(int x, Body body){
         body.rotate(x);
     }
 
@@ -158,31 +161,49 @@ public class Game {
         return predictor.returnCoordinates();
     }
 
-    public void updatePredictor(){
-        predictor = new Predictor(body, nodesOccupied);
+    public void updatePredictor(int index){
+        predictor = new Predictor(bodies.get(index), nodesOccupied);
     }
 
     public void handleKeyPress(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             this.mover = new West();
-            mover.move(body, cols);
-            updatePredictor();
+            mover.move(bodies.get(0), cols);
+            updatePredictor(0);
         }
         else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
             this.mover = new East();
-            mover.move(body, cols);
-            updatePredictor();
+            mover.move(bodies.get(0), cols);
+            updatePredictor(0);
         }
         else if(e.getKeyCode() == KeyEvent.VK_UP){
-            rotate(1);
-            updatePredictor();
+            rotate(1, bodies.get(0));
+            updatePredictor(0);
         }
         else if(e.getKeyCode() == KeyEvent.VK_DOWN){
-            rotate(-1);
-            updatePredictor();
+            rotate(-1, bodies.get(0));
+            updatePredictor(0);
         }
         else if(e.getKeyCode() == KeyEvent.VK_SPACE){
-            moveToBottom();
-          }
+            moveToBottom(bodies.get(0), 0);
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_A){
+            this.mover = new West();
+            mover.move(bodies.get(0), cols);
+            updatePredictor(0);
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_D){
+            this.mover = new East();
+            mover.move(bodies.get(0), cols);
+            updatePredictor(0);
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_W){
+            rotate(1, bodies.get(0));
+            updatePredictor(0);
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_S){
+            rotate(-1, bodies.get(0));
+            updatePredictor(0);
+        }
     }
 }

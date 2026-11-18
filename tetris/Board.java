@@ -8,6 +8,8 @@ import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import tetris.bodies.Body;
+
 
 public class Board {
     private int rows;
@@ -44,12 +46,14 @@ public class Board {
                 int height = getHeight();
 
                 g.fillRect(0, 0, cellSize * cols + 75, cellSize * rows + 105);
+                for(Body b : game.bodies){
+                    for(Node n : b.nodes){
+                        g.setColor(n.color);
+                        g2d.fillRect(n.x * cellSize, n.y * cellSize, cellSize, cellSize);
+                    }
+                    
 
-                for(Node n : game.body.nodes){
-                    g.setColor(n.color);
-                    g2d.fillRect(n.x * cellSize, n.y * cellSize, cellSize, cellSize);
                 }
-                
                 for(Node n : game.getNodesOccupied()){
                     g.setColor(n.color);
                     g2d.fillRect(n.x * cellSize, n.y * cellSize, cellSize, cellSize);
