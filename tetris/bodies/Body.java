@@ -37,10 +37,11 @@ public abstract class Body {
         return false;
     }
 
-    public void moveDown(){
+    public Body moveDown(){
         for(Node n :  nodes){
             n.moveDown();
         }
+        return this;
     }
         
 }

@@ -45,11 +45,11 @@ public class Game {
         return true;
     }
 
-    public void moveToBottom(){
+    public Body moveToBottom(){
         while(oneStepDownOkay()){
             body.moveDown();
         }
-        endOfBody();
+        return endOfBody();
     }
 
     public List<Node> getNodesOccupied(){
@@ -89,7 +89,7 @@ public class Game {
         return body;
     }
 
-    public void endOfBody(){
+    public Body endOfBody(){
         int nbrErasedRows = 0;
         for(Node n : body.nodes){
             nodesOccupied.add(n);
@@ -102,16 +102,16 @@ public class Game {
         }
         player.updatePts(nbrErasedRows * 10);
         gameOver = body.isGameOver();
-        body = newBody();
+        return  newBody();
         //predictor = new Predictor(body, nodesOccupied);
     }
 
-    public void move(int x){
+    public Body move(int x, Body body){
         if(!oneStepDownOkay()){
-            endOfBody();
+            return endOfBody();
         }
         else{
-            body.moveDown();
+            return body.moveDown();
         }
     }
 

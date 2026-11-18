@@ -1,9 +1,12 @@
 package tetris;
 
+import tetris.bodies.Body;
+
 public class Main {
   private static Player player = new Player();
   private static Game game = new Game(20, player);
   private static Board board = new Board(20, 20, game);
+  private static Body body = game.newBody();
   
     public static void main(String[] args) {
         
@@ -16,7 +19,7 @@ public class Main {
             if (dead > now){
               Thread.sleep(dead - now);
             }
-            game.move(19);
+            game.move(19, body);
           } 
           catch (InterruptedException e) {
             e.printStackTrace();
