@@ -22,17 +22,19 @@ import tetris.bodies.Stick;
 public class Game {
     private List<Node> nodesOccupied = new ArrayList<>();
     public  List<Body> bodies = new ArrayList<>();
+    public List<Predictor> predictors = new ArrayList<>();
     public boolean gameOver = false;
     private int cols;
-    private Predictor predictor;
     private Player player;
     private Move mover;
     
     public Game(int cols, Player player){
         this.cols = cols;
         this.player = player;
-        bodies.add(newBody());
-        bodies.add(newBody());
+        bodies.add(new Rosa(cols));
+        bodies.add(new Rosa(cols));
+        predictors.add(new Predictor(bodies.get(0), nodesOccupied));
+        predictors.add(new Predictor(bodies.get(1), nodesOccupied));
     }
     
     public void move(int index){
@@ -68,7 +70,7 @@ public class Game {
         }
         player.updatePts(nbrErasedRows * 10);
         gameOver = body.isGameOver();
-        bodies.set(index, newBody());
+        newBody(index);
 
         //predictor = new Predictor(body, nodesOccupied);
     }
@@ -84,37 +86,33 @@ public class Game {
         return nodesOccupied;
     }
 
-    public Body newBody(){
+    public void newBody(int index){
         Random random = new Random();
-        int x = random.nextInt(8);
+        int x = random.nextInt(7);
         Body body;
         if(x == 0){
             body = new Rosa(cols);
         }
         else if(x == 1){
-            body = new Rosa(cols);
-        }
-        else if(x == 2){
             body = new L(cols);
         }
-        else if(x == 3){
+        else if(x == 2){
             body = new Red(cols);
         }
-        else if(x == 4){
+        else if(x == 3){
             body = new Square(cols);
         }
-        else if(x == 5){
+        else if(x == 4){
             body = new J(cols);
         }
-        else if(x == 6){
+        else if(x == 5){
             body = new Green(cols);
         }
         else{
             body = new Stick(cols);
         }
-        predictor = new Predictor(body, nodesOccupied);
-
-        return body;
+        predictors.set(index, new Predictor(body, nodesOccupied));
+        bodies.set(index, body);
     }
 
 
@@ -158,11 +156,18 @@ public class Game {
     }
 
     public List<Node> predictionCoordinates(){
-        return predictor.returnCoordinates();
+        List<Node> bothPredictors = new ArrayList<>();
+        for(int i = 0; i < 2; i++){
+            for(Node n : predictors.get(i).returnCoordinates()){
+                bothPredictors.add(n);
+            }
+        }
+
+        return bothPredictors;
     }
 
     public void updatePredictor(int index){
-        predictor = new Predictor(bodies.get(index), nodesOccupied);
+        predictors.set(index, new Predictor(bodies.get(index), nodesOccupied));
     }
 
     public void handleKeyPress(KeyEvent e) {
@@ -189,21 +194,24 @@ public class Game {
         }
         else if(e.getKeyCode() == KeyEvent.VK_A){
             this.mover = new West();
-            mover.move(bodies.get(0), cols);
-            updatePredictor(0);
+            mover.move(bodies.get(1), cols);
+            updatePredictor(1);
         }
         else if(e.getKeyCode() == KeyEvent.VK_D){
             this.mover = new East();
-            mover.move(bodies.get(0), cols);
-            updatePredictor(0);
+            mover.move(bodies.get(1), cols);
+            updatePredictor(1);
         }
         else if(e.getKeyCode() == KeyEvent.VK_W){
-            rotate(1, bodies.get(0));
-            updatePredictor(0);
+            rotate(1, bodies.get(1));
+            updatePredictor(1);
         }
         else if(e.getKeyCode() == KeyEvent.VK_S){
-            rotate(-1, bodies.get(0));
-            updatePredictor(0);
+            rotate(-1, bodies.get(1));
+            updatePredictor(1);
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_Q){
+            moveToBottom(bodies.get(1), 1);
         }
     }
 }
